@@ -5,10 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import rest.demo.model.Category;
-import rest.demo.model.Project;
+import rest.demo.model.BlogPost;
+import rest.demo.model.Comment;
 import rest.demo.model.User;
-import rest.demo.repository.ProjectRepository;
+import rest.demo.repository.BlogPostRepository;
+import rest.demo.repository.CommentRepository;
 import rest.demo.repository.UserRepository;
 
 @SpringBootApplication
@@ -19,20 +20,22 @@ public class RestDemoApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner demo(ProjectRepository projects, UserRepository users) {
+	public CommandLineRunner demo(BlogPostRepository posts, UserRepository users, CommentRepository comments) {
 		return (args) -> {
 			
-			Project p = new Project("Testproject");
-			Category c = new Category("Test");
-			p.setCategory(c);
 			User u1 = new User("Thomas", "Wilker");
+			BlogPost p = new BlogPost("Testproject", u1);
+			
+			posts.save(p);
+			
 			User u2 = new User("Peter", "Rossa");
+			Comment c = new Comment();
+			c.setContent("Das ist mein Kommentar");
+			c.setPost(p);
+			c.setTitle("Super!");
+			c.setUser(u2);
 			
-			p.getUsers().add(u1);
-			
-			projects.save(p);
-			users.save(u2);
-			
+			comments.save(c);
 		};
 	}
 }
