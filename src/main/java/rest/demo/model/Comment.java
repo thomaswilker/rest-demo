@@ -22,7 +22,7 @@ public class Comment extends AbstractEntity {
 	private String content;
 	private Date created = new Date();
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	private User user;
 	
 	@ManyToOne
