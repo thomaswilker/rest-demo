@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.core.config.Projection;
 
-import rest.demo.model.BlogPost;
-import rest.demo.model.Comment;
+import rest.demo.model.TodoList;
+import rest.demo.model.Todo;
 import rest.demo.model.User;
 
-@Projection(name="details", types = {BlogPost.class})
+@Projection(name="details", types = {TodoList.class})
 public interface ProjectDetails {
 
 	String getTitle();
@@ -17,7 +17,7 @@ public interface ProjectDetails {
 	@Value("#{target.user.firstName target.user.lastName}")
 	String getUserFullName();
 	
-	Comment getCategory();
+	Todo getCategory();
 	
 }
 

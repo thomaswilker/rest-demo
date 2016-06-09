@@ -1,5 +1,9 @@
 package rest.demo;
 
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,11 +12,11 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import rest.demo.model.BlogPost;
-import rest.demo.model.Comment;
+import rest.demo.model.Todo;
+import rest.demo.model.TodoList;
 import rest.demo.model.User;
-import rest.demo.repository.BlogPostRepository;
-import rest.demo.repository.CommentRepository;
+import rest.demo.repository.TodoListRepository;
+import rest.demo.repository.TodoRepository;
 import rest.demo.repository.UserRepository;
 
 @SpringBootApplication
@@ -43,24 +47,25 @@ public class RestDemoApplication {
 	
 	
 	@Bean
-	public CommandLineRunner demo(BlogPostRepository posts, UserRepository users, CommentRepository comments) {
+	public CommandLineRunner demo(TodoListRepository lists, UserRepository users, TodoRepository todos) {
 		return (args) -> {
 			
 			User u1 = new User("Thomas", "Wilker");
-			BlogPost p = new BlogPost("Testproject", u1);
-			
-			posts.save(p);
-			
 			User u2 = new User("Peter", "Rossa");
-			users.save(u2);
+			User u3 = new User("Klaus", "Steitz");
 			
-			Comment c = new Comment();
-			c.setContent("Das ist mein Kommentar");
-			c.setPost(p);
-			c.setTitle("Super!");
-			c.setUser(u2);
+			users.save(Arrays.asList(u1,u2,u3));
 			
-			comments.save(c);
+			TodoList l1 = new TodoList("Einkaufsliste", u1);
+			l1.setSharedWith(Arrays.asList(u2,u3));
+			
+			Todo t1 = new Todo("Wasser", "Kein Azur", u1, l1);
+			Todo t2 = new Todo("Bananen", "", u1, l1);
+			
+			l1.setTodoes(Arrays.asList(t1,t2));
+			
+			lists.save(l1);
+			
 		};
 	}
 }

@@ -5,7 +5,9 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -24,11 +26,14 @@ public class User extends AbstractEntity {
 	private String firstName;
 	private String lastName;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
-	private Set<BlogPost> posts = new HashSet<>();
+	@OneToMany(mappedBy="owner")
+	private Set<TodoList> lists = new HashSet<>();
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
-	private Set<Comment> comments = new HashSet<>();
+	@ManyToMany(mappedBy="sharedWith")
+	private Set<TodoList> sharedLists = new HashSet<>();
+	
+	@OneToMany(mappedBy="user")
+	private Set<Todo> todos = new HashSet<>();
 	
 	public User(String firstName, String lastName) {
 		this.firstName = firstName;
