@@ -11,10 +11,10 @@ import rest.demo.model.User;
 
 public interface TodoListRepository extends JpaRepository<TodoList, Long> {
 	
-	@RestResource(path="findyByTitle", rel="findyByTitle")
+	@RestResource(path="findByTitle", rel="findByTitle")
 	public Page<TodoList> findByTitleContainingIgnoreCase(@Param("title") String title, Pageable pageable);
 	
-	@RestResource(path="findyByOwner", rel="findyByOwner")
+	@RestResource(path="findByOwner", rel="findByOwner")
 	public Page<TodoList> findByOwner(@Param("owner") User owner, Pageable pageable);
 	
 }
